@@ -1,0 +1,39 @@
+#dash {
+    margin-left: 18vw;
+    padding: 2rem;
+    height: 100%;
+  }
+  
+  #dash .grid {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  #dash .grid .row__one {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    height: 50%;
+    gap: 1rem;
+  }
+  
+  #dash .grid .row__two {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    height: 50%;
+  }
+  
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
+    #dash {
+      margin-left: 0;
+    }
+  
+    #dash .grid .row__one,
+    #dash .grid .row__two {
+      grid-template-columns: 1fr;
+    }
+  }
+  
