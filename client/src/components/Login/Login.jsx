@@ -1,3 +1,4 @@
+// Login.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -19,9 +20,9 @@ const Login = () => {
         e.preventDefault();
         try {
             const res = await axios.post('http://localhost:5001/login', data);
-            localStorage.setItem('token',res.data.token)
-            // Assuming a successful login redirects to the dashboard or homepage
-            navigate('/dashboard')
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('fullname', res.data.fullname); // Store username
+            navigate('/dashboard');
         } catch (err) {
             console.error(err);
             setError('Login failed. Please check your credentials and try again.');
@@ -30,7 +31,6 @@ const Login = () => {
 
     return (
         <div>
-            
             <section className="container">
                 <h1 className='large text-primary'>Sign In</h1>
                 <p className='lead'><i className="fas fa-user"></i> Sign into Your Account</p>

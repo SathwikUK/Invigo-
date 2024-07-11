@@ -7,6 +7,7 @@ import Humble from "../../img/humble.png";
 import { themeContext } from "../../Context";
 import { motion } from "framer-motion";
 import Resume from './resume.pdf';
+import Navbar from "../Navbar/Navbar";
 
 const Services = () => {
   // context
@@ -20,6 +21,8 @@ const Services = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="services" id="services">
       {/* left side */}
       <div className="awesome">
@@ -84,6 +87,7 @@ const Services = () => {
         ></div>
       </div>
     </div>
+    </>
   );
 };
 

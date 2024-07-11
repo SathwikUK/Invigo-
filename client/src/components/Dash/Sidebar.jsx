@@ -10,6 +10,7 @@ import { FiLogOut } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
 import scrollreveal from "scrollreveal";
+import { Link } from "react-router-dom";
 
 
 export default function Sidebar() {
@@ -69,10 +70,10 @@ export default function Sidebar() {
                 </a>
               </li>
               <li className={currentLink === 2 ? "active" : ""} onClick={() => setCurrentLink(2)}>
-                <a href="#">
-                  <RiDashboard2Fill />
-                  <span> Faculty Details</span>
-                </a>
+              <Link to="/faculty"> {/* Link to /faculty */}
+                <RiDashboard2Fill />
+                <span> Faculty Details</span>
+              </Link>
               </li>
               <li className={currentLink === 3 ? "active" : ""} onClick={() => setCurrentLink(3)}>
                 <a href="#">
@@ -118,10 +119,10 @@ export default function Sidebar() {
               </a>
             </li>
             <li className={currentLink === 2 ? "active" : ""} onClick={() => setCurrentLink(2)}>
-              <a href="#">
+            <Link to="/faculty"> {/* Link to /faculty */}
                 <RiDashboard2Fill />
                 <span> Faculty Details</span>
-              </a>
+              </Link>
             </li>
             <li className={currentLink === 3 ? "active" : ""} onClick={() => setCurrentLink(3)}>
               <a href="#">

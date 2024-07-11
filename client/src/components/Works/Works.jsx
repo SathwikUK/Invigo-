@@ -9,6 +9,7 @@ import A from '../../img/int-logo1.png';
 import { themeContext } from "../../Context";
 import { motion } from "framer-motion";
 import {Link} from 'react-scroll'
+import Navbar from "../Navbar/Navbar";
 const Works = () => {
   // context
   const theme = useContext(themeContext);
@@ -16,6 +17,8 @@ const Works = () => {
 
   // transition
   return (
+    <>
+    <Navbar/>
     <div className="works" id="works">
       {/* left side */}
       <div className="w-left">
@@ -72,6 +75,7 @@ const Works = () => {
         <div className="w-backCircle yellowCircle"></div>
       </div>
     </div>
+    </>
   );
 };
 

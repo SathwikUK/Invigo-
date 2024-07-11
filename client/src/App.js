@@ -5,7 +5,7 @@ import Intro from "./components/Intro/Intro";
 import Services from "./components/Services/Services";
 import Works from "./components/Works/Works";
 import Contact from "./components/Contact/Contact";
-import Footer from "./components/Footer/Footer";
+import UserList from "./components/FacultyDetails/UserList";
 import { useContext } from "react";
 import { themeContext } from "./Context";
 import './App.css';
@@ -38,6 +38,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register/>}/>
             <Route path="/dashboard"  element={<MainDash/>}/>
+            <Route path="/faculty" element={<UserList/>}/>
           </Routes>
           
         </Router>
