@@ -76,10 +76,10 @@ export default function Sidebar() {
               </Link>
               </li>
               <li className={currentLink === 3 ? "active" : ""} onClick={() => setCurrentLink(3)}>
-                <a href="#">
+                <Link to="/download">
                   <FaAddressCard />
-                  <span> Upcoming exams and allocation</span>
-                </a>
+                  <span>  Allocation</span>
+                  </Link>
               </li>
               <li className={currentLink === 4 ? "active" : ""} onClick={() => setCurrentLink(4)}>
                 <a href="#">

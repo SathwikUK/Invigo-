@@ -1,0 +1,47 @@
+.button-container {
+    width: 84%;
+    margin-left: 220px;
+    padding: 20px;
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #0a0a0a;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    height: calc(100vh - 20px);
+}
+
+.download-button,
+.update-button {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #15d42e;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.download-button:hover,
+.update-button:hover {
+    background-color: #45a049;
+}
+
+.next-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    transition: background-color 0.3s;
+}

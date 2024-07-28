@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
+const XLSX = require('xlsx');
 
 const app = express();
 
@@ -30,19 +31,10 @@ const upload = multer({
     storage: storage,
     limits: {
         fileSize: 10 * 1024 * 1024, // Max file size 10MB
-    },
-    fileFilter: (req, file, cb) => {
-        const filetypes = /jpeg|jpg|png/;
-        const mimetype = filetypes.test(file.mimetype);
-        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-
-        if (mimetype && extname) {
-            return cb(null, true);
-        } else {
-            cb('Error: Images only (jpeg, jpg, png)');
-        }
     }
 });
+
+let uploadedFileBuffer = '';
 
 app.get('/', (req, res) => {
     return res.send('Hello world!');
@@ -116,6 +108,127 @@ app.get('/faculty', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
+    }
+});
+
+// Function to set column widths to fit the content
+function autoFitColumns(worksheet) {
+    const range = XLSX.utils.decode_range(worksheet['!ref']);
+    const colWidths = [];
+
+    for (let C = range.s.c; C <= range.e.c; ++C) {
+        let maxWidth = 10;
+        for (let R = range.s.r; R <= range.e.r; ++R) {
+            const cellAddress = XLSX.utils.encode_cell({ c: C, r: R });
+            const cell = worksheet[cellAddress];
+
+            if (cell && cell.v) {
+                const cellValue = cell.v.toString();
+                maxWidth = Math.max(maxWidth, cellValue.length);
+            }
+        }
+        colWidths.push({ wch: maxWidth });
+    }
+
+    worksheet['!cols'] = colWidths;
+}
+
+app.get('/generate-excel', async (req, res) => {
+    try {
+        const facultyMembers = await FacUser.find({}, 'fullname branch');
+        const data = facultyMembers.map(faculty => ({
+            Name: `${faculty.fullname} (${faculty.branch})`,
+            Date: ''
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        autoFitColumns(worksheet);
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Faculty Data');
+
+        const excelBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+
+        res.setHeader('Content-Disposition', 'attachment; filename=faculty_data.xlsx');
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.send(excelBuffer);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+app.post('/upload-excel', upload.single('file'), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).send("File is required");
+        }
+        uploadedFileBuffer = req.file.buffer;
+        res.send({ message: 'File uploaded successfully' });
+    } catch (error) {
+        res.status(500).send('Error uploading file');
+    }
+});
+
+// Extract dates from the uploaded Excel file
+app.get('/get-dates', (req, res) => {
+    if (!uploadedFileBuffer) {
+        return res.status(400).send({ message: 'No file uploaded' });
+    }
+
+    const workbook = XLSX.read(uploadedFileBuffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+    const dates = data[0].slice(2); // Skip the first two columns
+
+    const convertedDates = dates.map(serial => {
+        if (typeof serial === 'number') {
+            const date = new Date((serial - 25569) * 86400 * 1000); // Convert Excel serial date to JS date
+            return date.toISOString().split('T')[0]; // Convert to YYYY-MM-DD format
+        } else {
+            return serial; // If already in date format, keep as is
+        }
+    });
+
+    res.send({ dates: convertedDates });
+});
+
+app.get('/get-users', (req, res) => {
+    try {
+        const { date } = req.query;
+
+        if (!uploadedFileBuffer || !date) {
+            return res.status(400).send({ message: 'Missing file or date' });
+        }
+
+        const workbook = XLSX.read(uploadedFileBuffer, { type: 'buffer' });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+        const dateIndex = data[0].findIndex(header => {
+            if (typeof header === 'number') {
+                const headerDate = new Date((header - 25569) * 86400 * 1000).toISOString().split('T')[0];
+                return headerDate === date;
+            } else {
+                return header === date;
+            }
+        });
+
+        if (dateIndex === -1) {
+            return res.status(400).send({ message: 'Date not found' });
+        }
+
+        const users = data
+            .filter((row, index) => index > 0 && row[dateIndex] === 1) // Skip the header row
+            .map(row => ({ username: row[0] })); // Assume the username is in the first column
+
+        res.send({ users });
+    } catch (error) {
+        console.error('Error in /get-users:', error.message);
+        res.status(500).send({ message: 'Server Error', error: error.message });
     }
 });
 
