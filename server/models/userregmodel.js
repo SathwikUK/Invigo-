@@ -1,16 +1,17 @@
 const mongoose = require('mongoose');
 
-const facuserSchema = new mongoose.Schema({
+const facUserSchema = new mongoose.Schema({
     fullname: {
         type: String,
         required: true
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     mobile: {
-        type: Number,
+        type: String,
         required: true
     },
     branch: {
@@ -26,9 +27,11 @@ const facuserSchema = new mongoose.Schema({
         required: true
     },
     profileImage: {
-        data: Buffer, // Store image data as Buffer
-        contentType: String // Content type of the image (e.g., 'image/jpeg')
+        data: Buffer,
+        contentType: String
     }
 });
 
-module.exports = mongoose.model('FacUser', facuserSchema);
+const FacUser = mongoose.model('FacUser', facUserSchema);
+
+module.exports = FacUser;

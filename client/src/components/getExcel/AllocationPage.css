@@ -1,0 +1,101 @@
+.allocation-page {
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.allocation-page h1, .allocation-page h2 {
+    margin-bottom: 20px;
+}
+
+.allocation-table, .unallocated-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #444;
+    color: #fff;
+}
+
+.allocation-table th, .unallocated-table th, .allocation-table td, .unallocated-table td {
+    border: 1px solid #666;
+    padding: 8px;
+    text-align: left;
+}
+
+.rooms-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.room-button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f4f4f4;
+    cursor: pointer;
+}
+
+.back-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    width: 300px;
+}
+
+.edit-popup-content h3 {
+    margin-top: 0;
+}
+
+.edit-popup-content label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.select-input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.edit-popup-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-popup-buttons button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.edit-popup-buttons button:hover {
+    background-color: #0056b3;
+}

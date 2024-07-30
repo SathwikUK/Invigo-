@@ -13,6 +13,8 @@ import Login from "./components/Login/Login";
 import MainDash from "./components/Dash/maindash";
 import DownloadButton from "./components/getExcel/DownloadButton";
 import NextPage from "./components/getExcel/NextPage";
+import AllocationPage from "./components/getExcel/AllocationPage";
+import { StateProvider } from "./components/getExcel/StateContext";
 
 function App() {
   const theme = useContext(themeContext);
@@ -26,6 +28,7 @@ function App() {
         color: darkMode ? "white" : "",
       }}
     >
+      <StateProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Intro />} />
@@ -38,8 +41,10 @@ function App() {
           <Route path="/faculty" element={<UserList />} />
           <Route path="/download" element={<DownloadButton />} />
           <Route path="/next-page" element={<NextPage />} />
+          <Route path="/allocation" element={<AllocationPage/>}/>
         </Routes>
       </Router>
+      </StateProvider>
     </div>
   );
 }

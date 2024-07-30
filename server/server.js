@@ -170,6 +170,20 @@ app.post('/upload-excel', upload.single('file'), (req, res) => {
     }
 });
 
+app.get('/search-faculty', async (req, res) => {
+    try {
+        const { query } = req.query;
+
+        // Search for faculty names based on the query
+        const faculty = await FacUser.find({ fullname: { $regex: query, $options: 'i' } });
+
+        return res.json({ faculty });
+    } catch (error) {
+        console.log("Error fetching faculty suggestions", error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
 // Extract dates from the uploaded Excel file
 app.get('/get-dates', (req, res) => {
     if (!uploadedFileBuffer) {
