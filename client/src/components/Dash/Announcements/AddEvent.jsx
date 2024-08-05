@@ -1,11 +1,11 @@
 
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from 'axios';
+import axios from '../../../api/axios';
 import Form from "./Form";
 import Anoun from "../../../img/Anoun.png.jpg";
 
-axios.defaults.baseURL="http://localhost:5001/"
+
 export default function AddEvent() {
   const [isWindowOpen, setWindowOpen] = useState(false);
   const [editSection, setEditSection] = useState(false);
@@ -264,7 +264,7 @@ const CardContainer = styled.div`
   color: white;
   margin-top: 1rem;
   padding: 1rem;
-  max-width: 85%;
+  max-width: 100%;
   color: #ffc107;
   font-family: "Permanent Marker", cursive;
   border-radius: 0.5rem;

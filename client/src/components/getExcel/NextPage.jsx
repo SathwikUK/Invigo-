@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../api/axios';
 import * as pdfjsLib from 'pdfjs-dist/webpack';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,7 +16,7 @@ const NextPage = () => {
     useEffect(() => {
         const fetchDates = async () => {
             try {
-                const response = await axios.get('http://localhost:5001/get-dates');
+                const response = await axios.get('/get-dates');
                 setState(prevState => ({ ...prevState, dates: response.data.dates }));
             } catch (error) {
                 console.error('Error fetching dates', error);
@@ -31,7 +31,7 @@ const NextPage = () => {
         setState(prevState => ({ ...prevState, selectedDate: date }));
 
         try {
-            const response = await axios.get(`http://localhost:5001/get-users?date=${date}`);
+            const response = await axios.get(`/get-users?date=${date}`);
             setState(prevState => ({ ...prevState, users: response.data.users }));
         } catch (error) {
             console.error('Error fetching users', error);
@@ -95,7 +95,7 @@ const NextPage = () => {
         setState(prevState => ({ ...prevState, facultySearchQuery: query }));
         if (query.length > 0) {
             try {
-                const response = await axios.get(`http://localhost:5001/search-faculty?query=${query}`);
+                const response = await axios.get(`/search-faculty?query=${query}`);
                 setState(prevState => ({ ...prevState, facultySuggestions: response.data.faculty }));
             } catch (error) {
                 console.error('Error fetching faculty suggestions', error);

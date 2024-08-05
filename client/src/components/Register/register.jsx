@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../../api/axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -47,7 +47,7 @@ const Register = () => {
     data.append('profileImage', profileImage);
 
     try {
-      const response = await axios.post('http://localhost:5001/register', data);
+      const response = await axios.post('/register', data);
       if (response.status === 200) {
         toast.success('Registered Successfully');
         // Delay navigation to allow toast to display

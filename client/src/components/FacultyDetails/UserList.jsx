@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../api/axios';
 import './UserList.css';
 import Sidebar from '../Dash/Sidebar';
 
@@ -12,7 +12,7 @@ const UserList = () => {
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:5001/faculty');
+        const response = await axios.get('/faculty');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);

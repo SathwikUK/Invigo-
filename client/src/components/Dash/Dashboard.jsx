@@ -5,7 +5,7 @@ import { IoStatsChart } from "react-icons/io5";
 import { FiActivity } from "react-icons/fi";
 import { FaCalendarAlt, FaFilePdf } from "react-icons/fa";
 import scrollreveal from "scrollreveal";
-import axios from "axios";
+import axios from '../../api/axios';
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 
 const cardStyles = css`
@@ -31,7 +31,7 @@ export default function Dashboard() {
 
     const fetchFacultyCount = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/faculty');
+        const response = await axios.get('/faculty');
         setFacultyCount(response.data.length); // Assuming response.data is an array of faculty
       } catch (error) {
         console.error('Error fetching faculty count', error);

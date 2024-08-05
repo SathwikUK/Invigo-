@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { StateContext } from './StateContext';
 import Select from 'react-select';
 import jsPDF from 'jspdf';
-import axios from 'axios';
+import axios from '../../api/axios';
 import 'jspdf-autotable';
 import { FaArrowLeft } from 'react-icons/fa';
 import './AllocationPage.css';
@@ -127,7 +127,7 @@ const AllocationPage = () => {
     
         try {
             // Upload the PDF to the database
-            await axios.post('http://localhost:5001/upload-pdf', formData, {
+            await axios.post('/upload-pdf', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

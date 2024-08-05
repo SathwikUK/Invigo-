@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../api/axios';
 import { toast, ToastContainer } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
 import './Login.css';
@@ -20,7 +20,7 @@ const Login = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5001/login', data);
+            const res = await axios.post('/login', data);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('fullname', res.data.fullname); // Store username
             toast.success('Login successful!'); // Display toast message

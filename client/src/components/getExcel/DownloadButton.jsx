@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../../api/axios';
 import './DownloadButton.css';
 import Sidebar from '../Dash/Sidebar';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ const DownloadButton = () => {
         setModalOpen(false);
 
         try {
-            const response = await axios.get('http://localhost:5001/generate-excel', {
+            const response = await axios.get('/generate-excel', {
                 responseType: 'blob'
             });
 
@@ -67,7 +67,7 @@ const DownloadButton = () => {
         formData.append('file', file);
 
         try {
-            await axios.post('http://localhost:5001/upload-excel', formData, {
+            await axios.post('/upload-excel', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

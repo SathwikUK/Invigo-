@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../api/axios';
 import { FaDownload } from 'react-icons/fa'; // Import the download icon from react-icons
 import './PastInvigilation.css'; // Add this to include your CSS
 import Sidebar from '../Dash/Sidebar';
@@ -11,7 +11,7 @@ const PastInvigilation = () => {
     useEffect(() => {
         const fetchPdfs = async () => {
             try {
-                const response = await axios.get('http://localhost:5001/get-pdfs');
+                const response = await axios.get('/get-pdfs');
                 setPdfs(response.data);
             } catch (error) {
                 console.error('Error fetching PDFs', error);
@@ -36,7 +36,7 @@ const PastInvigilation = () => {
 
     const handleDownload = async (id, description) => {
         try {
-            const response = await axios.get(`http://localhost:5001/download-pdf/${id}`, {
+            const response = await axios.get(`/download-pdf/${id}`, {
                 responseType: 'blob' // Important for downloading files
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));
