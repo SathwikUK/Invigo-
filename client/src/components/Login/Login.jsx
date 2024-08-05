@@ -1,7 +1,8 @@
-// Login.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
 import './Login.css';
 
 const Login = () => {
@@ -22,7 +23,10 @@ const Login = () => {
             const res = await axios.post('http://localhost:5001/login', data);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('fullname', res.data.fullname); // Store username
-            navigate('/dashboard');
+            toast.success('Login successful!'); // Display toast message
+            setTimeout(() => {
+                navigate('/dashboard');
+            }, 2000); // Adjust delay to allow toast to be visible
         } catch (err) {
             console.error(err);
             setError('Login failed. Please check your credentials and try again.');
@@ -58,6 +62,19 @@ const Login = () => {
                 </form>
                 <p className='large'>Don't have an account? <Link to="/register" >Sign Up</Link></p>
             </section>
+            <ToastContainer className="custom-toast-container" 
+              style={{
+                        position: 'absolute',
+                        top: '490px', /* Adjust this value to move the toast lower */
+                        left: '50%', /* Adjust as needed to align it with the button */
+                        transform: 'translateX(-50%)',
+                        zIndex: 9999, /* Ensure it appears above other elements */
+                    }}
+                    autoClose={3000}
+                    hideProgressBar={true}
+                    closeOnClick
+                    pauseOnHover
+                    draggable/> 
         </div>
     );
 }

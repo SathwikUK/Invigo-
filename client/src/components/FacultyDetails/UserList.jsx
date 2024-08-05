@@ -74,11 +74,11 @@ const UserList = () => {
                     {user.profileImage && user.profileImage.data ? (
                       <img src={getImageSrc(user)} alt={user.fullname} />
                     ) : (
-                      <span>No Image Available</span>
+                      <span className="no-image">No Image Available</span>
                     )}
                   </div>
                   <div className="details">
-                    <h3>Name:{user.fullname}</h3>
+                    <h3> {user.fullname}</h3>
                     <p>Mobile: {user.mobile}</p>
                     <p>Branch: {user.branch}</p>
                     <p>Email: {user.email}</p>

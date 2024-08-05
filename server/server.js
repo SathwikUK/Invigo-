@@ -6,7 +6,9 @@ const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
 const XLSX = require('xlsx');
+const usermodel = require('./models/userAnounmodel.js');
 
+// Create the express app
 const app = express();
 
 // Ensure the password is URL-encoded if it contains special characters
@@ -25,7 +27,7 @@ mongoose.connect(dbURI, {
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 
-// Multer storage configuration
+// Multer storage configuration for image uploads
 const storage = multer.memoryStorage(); // Store files in memory (Buffer)
 const upload = multer({
     storage: storage,
@@ -34,7 +36,8 @@ const upload = multer({
     }
 });
 
-let uploadedFileBuffer = '';
+
+
 
 app.get('/', (req, res) => {
     return res.send('Hello world!');
@@ -245,7 +248,109 @@ app.get('/get-users', (req, res) => {
         res.status(500).send({ message: 'Server Error', error: error.message });
     }
 });
+const pdfSchema = new mongoose.Schema({
+    filename: String,
+    data: Buffer,
+    contentType: String,
+    title: String, // Add title field
+    description: String, // Add description field
+    date: String, // Add date field
+    session: String, // Add session field
+});
+const Pdf = mongoose.model('Pdf', pdfSchema);
 
+let uploadedFileBuffer = '';
+
+
+
+// other endpoints ...
+
+// Route for handling PDF uploads
+app.post('/upload-pdf', upload.single('file'), async (req, res) => {
+    try {
+        const { title, description, date, session } = req.body;
+        const file = req.file;
+        if (!file) {
+            return res.status(400).send('No file uploaded');
+        }
+
+        const newPdf = new Pdf({
+            filename: file.originalname,
+            data: file.buffer,
+            contentType: file.mimetype,
+            title,
+            description,
+            date,
+            session
+        });
+
+        await newPdf.save();
+        res.status(200).send('File uploaded and saved to database');
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        res.status(500).send('Error uploading file');
+    }
+});
+
+
+// Route for getting the list of PDFs
+app.get('/get-pdfs', async (req, res) => {
+    try {
+        const pdfs = await Pdf.find({}, 'filename title description date session'); // Select only necessary fields
+        res.json(pdfs);
+    } catch (error) {
+        console.error('Error fetching PDFs:', error);
+        res.status(500).send('Error fetching PDFs');
+    }
+});
+
+// Route for downloading a PDF by ID
+app.get('/download-pdf/:id', async (req, res) => {
+    try {
+        const pdf = await Pdf.findById(req.params.id);
+        if (!pdf) {
+            return res.status(404).send('File not found');
+        }
+
+        res.set({
+            'Content-Type': pdf.contentType,
+            'Content-Disposition': `attachment; filename=${pdf.filename}`,
+        });
+        res.send(pdf.data);
+    } catch (error) {
+        console.error('Error downloading file:', error);
+        res.status(500).send('Error downloading file');
+    }
+});
+
+app.get("/anoun", async (req, res) => {
+    const data = await usermodel.find({});
+    res.json({ Success: true, data: data });
+});
+
+app.post("/create", async (req, res) => {
+    console.log(req.body);
+    const data = new usermodel(req.body);
+    await data.save();
+    res.send({ Success: true, message: "Data saved successfully", data: data });
+});
+
+// Update
+app.put("/update", async (req, res) => {
+    console.log(req.body);
+    const { _id, ...rest } = req.body;
+    console.log(rest);
+    const data = await usermodel.updateOne({ _id: _id }, rest);
+    res.send({ Success: true, message: "Data updated successfully", data: data });
+});
+
+// Delete
+app.delete("/delete/:id", async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    const data = await usermodel.deleteOne({ _id: id });
+    res.send({ Success: true, message: "Data deleted successfully", data: data });
+});
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

@@ -1,28 +1,46 @@
-// Dashboard.js
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { BsFillCalendar2WeekFill } from "react-icons/bs";
+import { BiGroup, BiSearch } from "react-icons/bi";
 import { IoStatsChart } from "react-icons/io5";
-import { BiGroup } from "react-icons/bi";
 import { FiActivity } from "react-icons/fi";
-import { BiSearch } from "react-icons/bi";
+import { FaCalendarAlt, FaFilePdf } from "react-icons/fa";
 import scrollreveal from "scrollreveal";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 
 const cardStyles = css`
   padding: 1rem 2rem 3rem 2rem;
   border-radius: 1rem;
   background-color: #212121;
   color: white;
+  cursor: pointer; // Add cursor pointer for clickable cards
+  transition: background-color 0.3s, color 0.3s;
 `;
 
 export default function Dashboard() {
   const [userName, setUserName] = useState('');
+  const [facultyCount, setFacultyCount] = useState(0);
+  const [loading, setLoading] = useState(true); // Loading state
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const name = localStorage.getItem('fullname');
     if (name) {
       setUserName(name);
     }
+
+    const fetchFacultyCount = async () => {
+      try {
+        const response = await axios.get('http://localhost:5001/faculty');
+        setFacultyCount(response.data.length); // Assuming response.data is an array of faculty
+      } catch (error) {
+        console.error('Error fetching faculty count', error);
+      } finally {
+        setLoading(false); // Set loading to false when the request is complete
+      }
+    };
+
+    fetchFacultyCount();
 
     const sr = scrollreveal({
       origin: "bottom",
@@ -43,15 +61,16 @@ export default function Dashboard() {
     );
   }, []);
 
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
   return (
     <DashboardSection>
       <Nav>
         <div className="title">
-        <h4>Hi <span style={{ marginLeft: '10px' }}>{userName}</span>,</h4>
-
-          <h1>
-            Welcome to <span>Invigo</span>
-          </h1>
+          <h4>Hi <span style={{ marginLeft: '10px' }}>{userName}</span>,</h4>
+          <h1>Welcome to <span>Invigo</span></h1>
         </div>
         <div className="search">
           <BiSearch />
@@ -61,18 +80,28 @@ export default function Dashboard() {
       <div className="grid">
         <div className="row__one">
           <Section>
-            
-            
-            <div className="analytic">
+            <div className="analytic" onClick={() => handleNavigation('/faculty')}>
               <div className="logo">
                 <BiGroup />
               </div>
               <div className="content">
                 <h5>Total Faculty</h5>
-                <h2>321</h2>
+                {loading ? (
+                  <LoadingSpinner />
+                ) : (
+                  <h2>{facultyCount}</h2>
+                )}
               </div>
             </div>
-            
+            <div className="analytic" onClick={() => handleNavigation('/pastdata')}>
+              <div className="logo">
+                <FaFilePdf />
+              </div>
+              <div className="content">
+                <h5>Past Invigilations</h5>
+                <h2>View Data</h2>
+              </div>
+            </div>
           </Section>
         </div>
       </div>
@@ -82,7 +111,7 @@ export default function Dashboard() {
 
 const DashboardSection = styled.section`
   position: fixed;
-  margin-left: 18vw;
+  margin-left: 22vw;
   padding: 2rem;
   height: 100%;
   width: 100%;
@@ -126,8 +155,8 @@ const Section = styled.section`
     ${cardStyles};
     padding: 1rem;
     display: flex;
-    width:70%;
-    height:40%;
+    width: 70%;
+    height: 40%;
     justify-content: center;
     align-items: center;
     gap: 1rem;
@@ -189,10 +218,10 @@ const Nav = styled.nav`
 
     h4 {
       margin: 0;
-      
-      span{
-      color:#ffc107;
-      font-size:1.5rem;
+
+      span {
+        color: #ffc107;
+        font-size: 1.5rem;
       }
     }
   }
@@ -235,5 +264,18 @@ const Nav = styled.nav`
         width: 50%;
       }
     }
+  }
+`;
+
+const LoadingSpinner = styled.div`
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #ffc107;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  animation: spin 1s linear infinite;
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 `;

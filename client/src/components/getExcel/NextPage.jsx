@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 import * as pdfjsLib from 'pdfjs-dist/webpack';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { StateContext } from './StateContext';
 import './nextpage.css';
 
@@ -150,17 +152,30 @@ const NextPage = () => {
     };
 
     const handleSelectStrength = (roomName, strength) => {
-        setState(prevState => ({
-            ...prevState,
-            rooms: prevState.rooms.map(room =>
-                room.room === roomName ? { ...room, selectedStrength: strength } : room
-            ),
-            filteredRooms: prevState.filteredRooms.map(room =>
-                room.room === roomName ? { ...room, selectedStrength: strength } : room
-            )
-        }));
+        setState(prevState => {
+            const updatedRooms = prevState.rooms.map(room => {
+                if (room.room === roomName) {
+                    // Toggle selectedStrength if the room is already selected
+                    if (room.selectedStrength === strength) {
+                        return { ...room, selectedStrength: null };
+                    } else {
+                        return { ...room, selectedStrength: strength };
+                    }
+                }
+                return room;
+            });
+    
+            const totalUsersNeeded = updatedRooms.reduce((sum, room) => sum + (room.selectedStrength ? room.selectedStrength / 24 : 0), 0);
+    
+            if (totalUsersNeeded >= prevState.users.length) {
+                alert('Not enough users available to allocate to more rooms.');
+                return { ...prevState, rooms: updatedRooms, filteredRooms: updatedRooms };
+            }
+    
+            return { ...prevState, rooms: updatedRooms, filteredRooms: updatedRooms };
+        });
     };
-
+    
     const handleAllocate = () => {
         const shuffledUsers = [...state.users].sort(() => 0.5 - Math.random());
         const allocatedRooms = [];
@@ -191,6 +206,7 @@ const NextPage = () => {
     return (
         <div className="main-container">
             <div className="left-container">
+                <FontAwesomeIcon icon={faArrowLeft} className="back-arrow" onClick={() => navigate("/download")} />
                 <h2>Select Date</h2>
                 <select value={state.selectedDate} onChange={handleDateChange}>
                     <option value="" disabled>Select a date</option>
@@ -204,7 +220,11 @@ const NextPage = () => {
                         <li key={index}>
                             {user.username}
                             {user.branch && ` (${user.branch})`}
-                            <button onClick={() => handleRemoveUser(index)} className="remove-button">-</button>
+                            <FontAwesomeIcon
+                                icon={faTrash}
+                                className="remove-button"
+                                onClick={() => handleRemoveUser(index)}
+                            />
                         </li>
                     ))}
                 </ul>
@@ -243,57 +263,58 @@ const NextPage = () => {
                                     >
                                         48
                                     </button>
-                                    <button
+                                    <FontAwesomeIcon
+                                        icon={faTrash}
                                         className="small-button remove"
                                         onClick={() => handleRemoveRoom(room.room)}
-                                    >
-                                        -
-                                    </button>
+                                    />
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <div className="no-rooms">No rooms found</div>
+                        <p>No rooms available</p>
                     )}
                 </div>
                 <button onClick={handleAllocate} className="action-button">Allocate</button>
             </div>
-
             {state.isModalOpen && (
-                <div className="modal-overlay">
+                <div className="modal">
                     <div className="modal-content">
-                        <h3>Add Faculty</h3>
+                        <h2>Add Faculty</h2>
                         <input
                             type="text"
-                            placeholder="Search faculty"
                             value={state.facultySearchQuery}
                             onChange={(e) => handleFacultySearch(e.target.value)}
+                            placeholder="Search faculty..."
+                            className="search-input"
+                            style={{ backgroundColor: 'grey', color: 'white' }}
                         />
-                        <ul>
+                        <ul className="suggestions-list">
                             {state.facultySuggestions.map((faculty, index) => (
                                 <li key={index} onClick={() => handleSelectFaculty(faculty)}>
                                     {faculty.fullname} ({faculty.branch})
                                 </li>
                             ))}
                         </ul>
-                        <button onClick={() => setState(prevState => ({ ...prevState, isModalOpen: false }))}>Close</button>
+                        <button onClick={() => setState(prevState => ({ ...prevState, isModalOpen: false }))} className="action-button close-button">Close</button>
                     </div>
                 </div>
             )}
 
             {state.isRoomModalOpen && (
-                <div className="modal-overlay">
+                <div className="modal">
                     <div className="modal-content">
-                        <h3>Add Room</h3>
+                        <h2>Add Room</h2>
                         <input
                             type="text"
-                            placeholder="Room number"
                             value={state.newRoom}
                             onChange={(e) => setState(prevState => ({ ...prevState, newRoom: e.target.value }))}
+                            placeholder="Enter room number"
+                            className="search-input"
                         />
-                        {state.roomError && <div className="error-message">{state.roomError}</div>}
-                        <button onClick={handleSaveRoom}>Save</button>
-                        <button onClick={() => setState(prevState => ({ ...prevState, isRoomModalOpen: false }))}>Close</button>
+                        {state.roomError && <p className="error-message">{state.roomError}</p>}
+                        <button onClick={handleSaveRoom} className="action-button">Save</button>
+                        <button onClick={() => setState(prevState => ({ ...prevState, isRoomModalOpen: false, newRoom: '', roomError: '' }))} className="action-button close-button">Close</button>
                     </div>
                 </div>
             )}

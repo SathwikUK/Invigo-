@@ -1,8 +1,9 @@
+
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from 'axios';
 import Form from "./Form";
-import Anoun from "../../../img/Anoun.png";
+import Anoun from "../../../img/Anoun.png.jpg";
 
 axios.defaults.baseURL="http://localhost:5001/"
 export default function AddEvent() {
@@ -24,34 +25,7 @@ export default function AddEvent() {
    
   const [dataList, setDataList] = useState([]);
 
-  /*const handleOnchange = (e) => {
-    const { name, value, files } = e.target;
-    setFormdata((prevData) => ({
-        ...prevData,
-        [name]: files ? files[0] : value
-    }));
-};
-
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = new FormData();
-    data.append('title', formData.title);
-    data.append('description', formData.description);
-    data.append('date', formData.date);
-    data.append('file', formData.file);
-
-    try {
-        const response = await fetch('http://localhost:5001/upload', {
-            method: 'POST',
-            body: data
-        });
-        const result = await response.json();
-        console.log(result);
-        // Optionally handle success, e.g., clear the form, show a message, etc.
-    } catch (error) {
-        console.error('Error uploading file:', error);
-    }
-};*/
+  
 const handleOnchange = (e) => {
   const { name, value } = e.target;
   setFormdata((prev) => ({
@@ -124,18 +98,7 @@ const handleSubmit = async (e) => {
     setFormdataEdit(event);
     setEditSection(true);
   }
-  /*const getImageForEvent = (title) => {
-    switch (title) {
-      case "Semester Exams":
-        return "https://via.placeholder.com/150?text=Semester+Exams";
-      case "Mid-1 Exams":
-        return "https://via.placeholder.com/150?text=Mid-1+Exams";
-      case "Mid-2 Exams":
-        return "https://via.placeholder.com/150?text=Mid-2+Exams";
-      default:
-        return "https://via.placeholder.com/150";
-    }
-  };*/
+  
   return (
     <>
       <Nav>
@@ -205,7 +168,7 @@ const Nav = styled.nav`
   align-items: center;
   color: white;
   padding: 1rem;
-  max-width: 70%;
+  max-width: 90%;
   border-radius: 0.6rem;
   background-color: #212121;
   overflow: auto;
@@ -301,7 +264,7 @@ const CardContainer = styled.div`
   color: white;
   margin-top: 1rem;
   padding: 1rem;
-  max-width: 70%;
+  max-width: 85%;
   color: #ffc107;
   font-family: "Permanent Marker", cursive;
   border-radius: 0.5rem;
@@ -379,7 +342,7 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin: 0px 5px;
+  margin: 30px 30px;
   transition: background-color 0.3s ease;
 
   &.update {

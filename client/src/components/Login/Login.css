@@ -1,5 +1,5 @@
-body{
-  background-color:#fff;
+body {
+  background-color:white;
 }
 
 .body {
@@ -20,7 +20,7 @@ body{
   padding: 20px;
   background-color: rgb(14, 4, 4);
   border: 1px solid #ddd;
-  box-shadow: 0 0 10px rgba(255,255,255);
+  box-shadow: 0 0 10px rgba(255, 255, 255);
   border-radius: 10px;
 }
 
@@ -32,6 +32,7 @@ body{
   text-align: center;
   font-style: italic;
 }
+
 input::placeholder {
   color: #FCA61F;
   filter: brightness(1.0);
@@ -88,7 +89,7 @@ input[type="password"]:focus {
 
 .btn:hover {
   background-color: #FCA61F;
-  
+
 }
 
 .btn-primary {
@@ -98,5 +99,16 @@ input[type="password"]:focus {
 
 .btn-primary:hover {
   background-color: #FCA61F;
-  
+
+}
+
+.custom-toast-container {
+  position: absolute;
+  bottom: 80px;
+  /* Adjust this value based on your layout and the height of the button */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  /* Ensure it’s on top of other content */
+  width: max-content;
 }

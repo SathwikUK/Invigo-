@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './register.css';
 import profile from "../../img/profileimg.jpg";
 
@@ -14,6 +16,8 @@ const Register = () => {
     confirmPassword: '',
     profileImage: null
   });
+
+  const navigate = useNavigate(); // Initialize the navigate function
 
   const handleChange = (event) => {
     if (event.target.name === 'profileImage') {
@@ -29,7 +33,7 @@ const Register = () => {
     const { fullname, mobile, branch, email, password, confirmPassword, profileImage } = formData;
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -45,11 +49,23 @@ const Register = () => {
     try {
       const response = await axios.post('http://localhost:5001/register', data);
       if (response.status === 200) {
-        alert('Registered Successfully');
+        toast.success('Registered Successfully');
+        // Delay navigation to allow toast to display
+        setTimeout(() => {
+          navigate('/Login');
+        }, 2000); // Adjust the delay time as needed (2000ms = 2 seconds)
       }
     } catch (error) {
       console.error('Registration Error:', error);
-      alert('Registration failed');
+      if (error.response && error.response.data) {
+        if (error.response.data.message === 'User is already registered') {
+          toast.error('User is already registered');
+        } else {
+          toast.error('Registration failed');
+        }
+      } else {
+        toast.error('Registration failed');
+      }
     }
   };
 
@@ -68,64 +84,73 @@ const Register = () => {
         <div className="form-group1">
           <input type="file" name="profileImage" onChange={handleChange} required />
         </div>
-
         <table className="input-table">
-          <tr>
-            <td>
-              <div className="form-group">
-                <label className="input-label">Fullname:</label>
-                <input type="text" className="input-field" name="fullname" value={formData.fullname} onChange={handleChange} required />
-              </div>
-            </td>
-            <td>
-              <div className="form-group">
-                <label className="input-label">Phone Number:</label>
-                <input type="tel" name="mobile" className="input-field" value={formData.mobile} onChange={handleChange} required />
-              </div>
-            </td>
-            <td>
-              <div className="form-group">
-                <label className="input-label">Branch:</label>
-                <select name="branch" className="input-field" value={formData.branch} onChange={handleChange} required>
-                  <option value="">Choose branch</option>
-                  <option value="CSE">CSE</option>
-                  <option value="ECE">ECE</option>
-                  <option value="EEE">EEE</option>
-                  <option value="MECH">MECH</option>
-                  <option value="CIVIL">CIVIL</option>
-                  <option value="IT">IT</option>
-                  <option value="CSM">CSM</option>
-                  <option value="AIDS">AIDS</option>
-                  <option value="AIML">AIML</option>
-                </select>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className="form-group">
-                <label className="input-label">Email:</label>
-                <input type="email" name="email" className="input-field" value={formData.email} onChange={handleChange} required />
-              </div>
-            </td>
-            <td>
-              <div className="form-group">
-                <label className="input-label">Password:</label>
-                <input type="password" name="password" className="input-field" value={formData.password} onChange={handleChange} required />
-              </div>
-            </td>
-            <td>
-              <div className="form-group">
-                <label className="input-label">Confirm Password:</label>
-                <input type="password" name="confirmPassword" className="input-field" value={formData.confirmPassword} onChange={handleChange} required />
-              </div>
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>
+                <div className="form-group">
+                  <input type="text" className="input-field" name="fullname" placeholder='Full Name' value={formData.fullname} onChange={handleChange} required />
+                </div>
+              </td>
+              <td>
+                <div className="form-group">
+                  <input type="tel" name="mobile" className="input-field" placeholder='Phone Number' value={formData.mobile} onChange={handleChange} required />
+                </div>
+              </td>
+              <td>
+                <div className="form-group">
+                  <select name="branch" className="input-field" value={formData.branch} onChange={handleChange} required>
+                    <option value="">Choose branch</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="MECH">MECH</option>
+                    <option value="CIVIL">CIVIL</option>
+                    <option value="IT">IT</option>
+                    <option value="CSM">CSM</option>
+                    <option value="AIDS">AIDS</option>
+                    <option value="AIML">AIML</option>
+                    <option value="CIC">CIC</option>
+                  </select>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div className="form-group">
+                  <input type="email" name="email" className="input-field" placeholder='Email' value={formData.email} onChange={handleChange} required />
+                </div>
+              </td>
+              <td>
+                <div className="form-group">
+                  <input type="password" name="password" className="input-field" placeholder='Password' value={formData.password} onChange={handleChange} required />
+                </div>
+              </td>
+              <td>
+                <div className="form-group">
+                  <input type="password" name="confirmPassword" className="input-field" placeholder='Confirm Password' value={formData.confirmPassword} onChange={handleChange} required />
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
         <center>
           <button type="submit">Register</button>
         </center>
       </form>
+      <ToastContainer 
+        style={{
+                        position: 'absolute',
+                        top: '650px', /* Adjust this value to move the toast lower */
+                        left: '50%', /* Adjust as needed to align it with the button */
+                        transform: 'translateX(-50%)',
+                        zIndex: 9999, /* Ensure it appears above other elements */
+                    }}
+                    autoClose={3000}
+                    hideProgressBar={true}
+                    closeOnClick
+                    pauseOnHover
+                    draggable /> 
     </div>
   );
 };

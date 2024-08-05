@@ -10,10 +10,11 @@ import { FiLogOut } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { VscChromeClose } from "react-icons/vsc";
 import scrollreveal from "scrollreveal";
-import { Link } from "react-router-dom";
-
+import { Link, useLocation, useNavigate } from "react-router-dom"; // Add useNavigate
 
 export default function Sidebar() {
+  const location = useLocation();
+  const navigate = useNavigate(); // Initialize useNavigate
   const [currentLink, setCurrentLink] = useState(1);
   const [navbarState, setNavbarState] = useState(false);
 
@@ -41,7 +42,30 @@ export default function Sidebar() {
         interval: 300,
       }
     );
-  }, []);
+
+    switch (location.pathname) {
+      case "/faculty":
+        setCurrentLink(2);
+        break;
+      case "/download":
+        setCurrentLink(3);
+        break;
+      case "/Anouncement":
+        setCurrentLink(5);
+        break;
+      default:
+        setCurrentLink(1);
+        break;
+    }
+  }, [location.pathname]);
+
+  const handleLogout = () => {
+    // Remove the token from localStorage or any other storage
+    localStorage.removeItem("token");
+
+    // Redirect to home page
+    navigate("/");
+  };
 
   return (
     <>
@@ -55,43 +79,45 @@ export default function Sidebar() {
             {navbarState ? (
               <VscChromeClose onClick={() => setNavbarState(false)} />
             ) : (
-              <GiHamburgerMenu onClick={(e) => {
-                e.stopPropagation();
-                setNavbarState(true);
-              }} />
+              <GiHamburgerMenu
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setNavbarState(true);
+                }}
+              />
             )}
           </div>
           <div className="links">
             <ul>
               <li className={currentLink === 1 ? "active" : ""} onClick={() => setCurrentLink(1)}>
-                <a href="#">
+                <Link to="/dashboard">
                   <MdSpaceDashboard />
                   <span> Dashboard</span>
-                </a>
+                </Link>
               </li>
               <li className={currentLink === 2 ? "active" : ""} onClick={() => setCurrentLink(2)}>
-              <Link to="/faculty"> {/* Link to /faculty */}
-                <RiDashboard2Fill />
-                <span> Faculty Details</span>
-              </Link>
+                <Link to="/faculty">
+                  <RiDashboard2Fill />
+                  <span> Faculty Details</span>
+                </Link>
               </li>
               <li className={currentLink === 3 ? "active" : ""} onClick={() => setCurrentLink(3)}>
                 <Link to="/download">
                   <FaAddressCard />
-                  <span>  Allocation</span>
-                  </Link>
+                  <span> Allocation</span>
+                </Link>
               </li>
               <li className={currentLink === 4 ? "active" : ""} onClick={() => setCurrentLink(4)}>
-                <a href="#">
+                <Link to="/pastdata">
                   <GiTwirlCenter />
                   <span> Past Invigilations</span>
-                </a>
+                </Link>
               </li>
               <li className={currentLink === 5 ? "active" : ""} onClick={() => setCurrentLink(5)}>
-                <a href="#">
+                <Link to="/Anouncement" className="nav-link">
                   <BsFillChatTextFill />
                   <span> Announcements</span>
-                </a>
+                </Link>
               </li>
               <li className={currentLink === 6 ? "active" : ""} onClick={() => setCurrentLink(6)}>
                 <a href="#">
@@ -103,7 +129,7 @@ export default function Sidebar() {
           </div>
         </div>
         <div className="logout">
-          <a href="#">
+          <a href="#" onClick={handleLogout}> {/* Attach logout handler */}
             <FiLogOut />
             <span className="logout">Logout</span>
           </a>
@@ -113,22 +139,22 @@ export default function Sidebar() {
         <div className="responsive__links">
           <ul>
             <li className={currentLink === 1 ? "active" : ""} onClick={() => setCurrentLink(1)}>
-              <a href="#">
+              <Link to="/">
                 <MdSpaceDashboard />
                 <span> Dashboard</span>
-              </a>
+              </Link>
             </li>
             <li className={currentLink === 2 ? "active" : ""} onClick={() => setCurrentLink(2)}>
-            <Link to="/faculty"> {/* Link to /faculty */}
+              <Link to="/faculty">
                 <RiDashboard2Fill />
                 <span> Faculty Details</span>
               </Link>
             </li>
             <li className={currentLink === 3 ? "active" : ""} onClick={() => setCurrentLink(3)}>
-              <a href="#">
+              <Link to="/download">
                 <FaAddressCard />
-                <span> Upcoming exams and allocation</span>
-              </a>
+                <span> Allocation</span>
+              </Link>
             </li>
             <li className={currentLink === 4 ? "active" : ""} onClick={() => setCurrentLink(4)}>
               <a href="#">
@@ -137,10 +163,10 @@ export default function Sidebar() {
               </a>
             </li>
             <li className={currentLink === 5 ? "active" : ""} onClick={() => setCurrentLink(5)}>
-              <a href="#">
+              <Link to="/Anouncement">
                 <BsFillChatTextFill />
                 <span> Announcements</span>
-              </a>
+              </Link>
             </li>
             <li className={currentLink === 6 ? "active" : ""} onClick={() => setCurrentLink(6)}>
               <a href="#">
@@ -154,6 +180,9 @@ export default function Sidebar() {
     </>
   );
 }
+
+// Styled components remain unchanged
+
 
 const Section = styled.section`
   position: fixed;

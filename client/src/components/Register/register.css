@@ -2,7 +2,7 @@
   max-width: 1500px;
   margin: 40px auto;
   padding: 20px;
-  background-color: gray;
+  background-color: rgb(12, 3, 3);
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -14,13 +14,16 @@
   color: #FCA61F;
   font-size: 40px;
   text-align: center;
+  font-style: italic;
 }
+
 .hclass1 {
   margin-top: 0;
   font-weight: bold;
-  color: #110f03fb;
+  color: #FCA61F;
   font-size: 25px;
   text-align: center;
+  font-style: italic;
 }
 
 
@@ -34,6 +37,13 @@ p {
 .form-group {
   margin-bottom: 20px;
   width: 300px;
+
+}
+
+input::placeholder {
+  color: #FCA61F;
+  filter: brightness(1.0);
+  /* Increase brightness by 20% */
 }
 
 .form-group1 {
@@ -41,12 +51,14 @@ p {
   text-align: center;
   margin-top: 10px;
 }
+
 label {
   display: block;
   margin-bottom: 10px;
-  font-weight: bold;
-  color: #333;
+  color: #FCA61F;
   font-size: 16px;
+  font-style: italic;
+  font-weight: bolder;
 }
 
 input[type="text"],
@@ -65,7 +77,7 @@ select {
 input[type="file"] {
   padding: 10px;
   margin-bottom: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid hsl(0, 0%, 80%);
   border-radius: 5px;
   font-size: 16px;
 }
@@ -84,7 +96,7 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: #3e8e41;
-  
+
 }
 
 .form-group:last-child {
@@ -93,26 +105,28 @@ button[type="submit"]:hover {
 
 
 .input-table {
-  width: 100%; 
-  border-collapse: separate; 
-  border-spacing: 20px; 
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 20px;
 }
 
 .input-table td {
-  padding: 10px; 
-  width: 40%; 
+  padding: 10px;
+  width: 40%;
 }
 
 .input-label {
   display: block;
-  margin-bottom: 5px; 
+  margin-bottom: 5px;
 }
 
 .input-field {
-  width: 100%; 
+  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-style: italic;
+  font-weight: bolder;
 }
 
 
@@ -126,21 +140,22 @@ button[type="submit"]:hover {
   align-items: center;
   margin-bottom: 20px;
   text-align: center;
- 
+
 }
 
 .profile-circle {
-  width: 100px; 
-  height: 100px; 
-  border-radius: 50%; 
-  overflow: hidden; 
-  background-color: #ccc; 
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #ccc;
   margin-left: 700px;
   margin-top: -48px;
 
 }
+
 .profile-img {
   width: 100%;
-  height: 100%; 
-  object-fit: cover; 
+  height: 100%;
+  object-fit: cover;
 }

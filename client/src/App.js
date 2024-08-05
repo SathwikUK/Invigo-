@@ -15,6 +15,8 @@ import DownloadButton from "./components/getExcel/DownloadButton";
 import NextPage from "./components/getExcel/NextPage";
 import AllocationPage from "./components/getExcel/AllocationPage";
 import { StateProvider } from "./components/getExcel/StateContext";
+import PastInvigilation from "./components/getExcel/PastInvigilation";
+import Announcement from "./components/Dash/Announcements/Announcement";
 
 function App() {
   const theme = useContext(themeContext);
@@ -42,6 +44,8 @@ function App() {
           <Route path="/download" element={<DownloadButton />} />
           <Route path="/next-page" element={<NextPage />} />
           <Route path="/allocation" element={<AllocationPage/>}/>
+          <Route path="/pastdata" element={<PastInvigilation/>}/>
+          <Route path="/Anouncement" element={<Announcement/>}/>
         </Routes>
       </Router>
       </StateProvider>
