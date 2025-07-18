@@ -578,13 +578,13 @@ We welcome contributions! Please follow these steps:
   ### 🌟 **Get in Touch**
   
   <p>
-    <a href="mailto:invigo.team@gmail.com">
+    <a href="mailto:sathwiksampengala@gmail.com">
       <img src="https://img.shields.io/badge/Email-FF6B35?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
     </a>
-    <a href="https://github.com/yourusername/invigo">
+    <a href="https://github.com/sathwikuk/">
       <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
     </a>
-    <a href="https://linkedin.com/in/yourprofile">
+    <a href="https://linkedin.com/sathwikuk">
       <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
     </a>
   </p>
