@@ -9,26 +9,28 @@
   padding-top: 1rem;
 }
 /* left side */
-.awesome {
+.awesome-se {
   display: flex;
   flex-direction: column;
   position: relative;
+  margin-top: 4rem;
+  margin-right: 10rem;
   /* gap: 20px; */
 }
 
-.awesome > :nth-child(1) {
+.awesome-se > :nth-child(1) {
   color: var(--black);
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   font-weight: bold;
 }
-.awesome > :nth-child(2) {
+.awesome-se > :nth-child(2) {
   color: var(--orange);
-  font-size: 2.5rem;
+  font-size: 3.0rem;
   font-weight: bold;
 }
-.awesome > :nth-child(3) {
+.awesome-se > :nth-child(3) {
   color: var(--gray);
-  font-size: 14px;
+  font-size: 20px;
   margin-top: 1rem;
 }
 .s-button {

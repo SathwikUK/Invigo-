@@ -25,7 +25,7 @@ const Services = () => {
     <Navbar/>
     <div className="services" id="services">
       {/* left side */}
-      <div className="awesome">
+      <div className="awesome-se">
         {/* dark mode */}
         <span style={{ color: darkMode ? "white" : "" }}>Features of</span>
         <span>Invigilation</span>
@@ -50,7 +50,7 @@ const Services = () => {
           <Card
             emoji={HeartEmoji}
             heading={"Design"}
-            detail={"Utilizing HTML, React, CSS, and JavaScript to craft aesthetically pleasing and functionally effective designs."}
+            detail={"Utilizing HTML, React, CSS, and JS to craft aesthetically and functionally effective designs."}
           />
         </motion.div>
         {/* second card */}

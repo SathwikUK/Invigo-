@@ -1,5 +1,8 @@
+/* ===================================================================== */
+
+/* Login.css */
 body {
-  background-color:white;
+  background-color: white;
 }
 
 .body {
@@ -22,6 +25,7 @@ body {
   border: 1px solid #ddd;
   box-shadow: 0 0 10px rgba(255, 255, 255);
   border-radius: 10px;
+  position: relative;
 }
 
 .large {
@@ -33,18 +37,17 @@ body {
   font-style: italic;
 }
 
-input::placeholder {
-  color: #FCA61F;
-  filter: brightness(1.0);
-}
-
-
 .lead {
   font-size: 22px;
   color: white;
   margin-bottom: 20px;
   text-align: center;
   font-style: italic;
+}
+
+input::placeholder {
+  color: #FCA61F;
+  filter: brightness(1.0);
 }
 
 .form {
@@ -56,6 +59,7 @@ input::placeholder {
 
 .form-group {
   margin-bottom: 20px;
+  width: 100%;
 }
 
 input[type="email"],
@@ -70,8 +74,6 @@ input[type="password"] {
   font-weight: bolder;
 }
 
-input[type="text"]:focus,
-input[type="tel"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
   border-color: #FCA61F;
@@ -79,17 +81,17 @@ input[type="password"]:focus {
 }
 
 .btn {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .btn:hover {
   background-color: #FCA61F;
-
 }
 
 .btn-primary {
@@ -99,16 +101,33 @@ input[type="password"]:focus {
 
 .btn-primary:hover {
   background-color: #FCA61F;
+}
 
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #4caf50; /* green bg */
+  color: #fff; /* white text/icon */
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-btn:hover {
+  background-color: #3e8e41;
+}
+
+.error {
+  color: #ff6961;
+  margin-bottom: 10px;
 }
 
 .custom-toast-container {
   position: absolute;
   bottom: 80px;
-  /* Adjust this value based on your layout and the height of the button */
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
-  /* Ensure it’s on top of other content */
-  width: max-content;
 }

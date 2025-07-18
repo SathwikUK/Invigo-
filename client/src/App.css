@@ -28,7 +28,8 @@ body {
 .App{
     
     overflow-y: scroll;
-    color: var(--black);    
+    color: var(--black);  
+    height: 100vh;  
 }
 
 .button {

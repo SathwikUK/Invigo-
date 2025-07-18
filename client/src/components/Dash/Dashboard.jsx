@@ -217,7 +217,7 @@ const Nav = styled.nav`
     }
 
     h4 {
-      margin: 0;
+      margin: 4;
 
       span {
         color: #ffc107;
