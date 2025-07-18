@@ -28,9 +28,9 @@ const Intro = () => {
         <div className="i-name">
           <span style={{ color: darkMode ? "white" : "" }}>Welcome! To</span>
           <span>Invigilation Management</span>
-          <span>
+          
             An invigilation module is a software tool designed to facilitate and streamline the monitoring and oversight of examinations or assessments.
-          </span>
+          
         </div>
         <Link to="/login" className="nav-link">
           <button className="button n-button">Get Started</button>
